@@ -11,8 +11,8 @@
   <header>
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
     <nav>
-      <a href="#contact">Contact</a>
-      <a href="#signup" class="cta">Sign Up</a>
+      <a href="#contact" id="nav-contact">Contact</a>
+      <a href="#signup" class="cta" id="nav-signup">Sign Up</a>
       <select id="language-switcher">
         <option value="en">English</option>
         <option value="bg">Български</option>
@@ -27,9 +27,9 @@
   </section>
 
   <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: upravitelblock225avhodb@gmail.com</p>
-    <p>Phone: +3598895657321</p>
+    <h2 id="contact-title">Contact Us</h2>
+    <p id="contact-email">Email: upravitelblock225avhodb@gmail.com</p>
+    <p id="contact-phone">Phone: +3598895657321</p>
   </section>
 
   <section id="signup">
@@ -43,23 +43,49 @@
   <script>
     const translations = {
       en: {
+        navContact: "Contact",
+        navSignup: "Sign Up",
         title: "Welcome to DomPass",
         subtext: "Smart, secure apartment payment management for your building.",
-        button: "Get Started"
+        button: "Get Started",
+        contactTitle: "Contact Us",
+        contactEmail: "Email: upravitelblock225avhodb@gmail.com",
+        contactPhone: "Phone: +359 889 56 57 321"
       },
       bg: {
+        navContact: "Контакт",
+        navSignup: "Регистрация",
         title: "Добре дошли в DomPass",
         subtext: "Умно и сигурно управление на плащанията за вашата сграда.",
-        button: "Започнете"
+        button: "Започнете",
+        contactTitle: "Свържете се с нас",
+        contactEmail: "Имейл: upravitelblock225avhodb@gmail.com",
+        contactPhone: "Телефон: +359 889 56 57 321"
       }
     };
 
     const switcher = document.getElementById("language-switcher");
-    switcher.addEventListener("change", () => {
-      const lang = switcher.value;
+
+    function applyLanguage(lang) {
+      document.getElementById("nav-contact").textContent = translations[lang].navContact;
+      document.getElementById("nav-signup").textContent = translations[lang].navSignup;
       document.getElementById("hero-title").textContent = translations[lang].title;
       document.getElementById("hero-subtext").textContent = translations[lang].subtext;
       document.getElementById("hero-button").textContent = translations[lang].button;
+      document.getElementById("contact-title").textContent = translations[lang].contactTitle;
+      document.getElementById("contact-email").textContent = translations[lang].contactEmail;
+      document.getElementById("contact-phone").textContent = translations[lang].contactPhone;
+    }
+
+    // Load saved language or default to English
+    const savedLang = localStorage.getItem("dompass-lang") || "en";
+    switcher.value = savedLang;
+    applyLanguage(savedLang);
+
+    switcher.addEventListener("change", () => {
+      const lang = switcher.value;
+      localStorage.setItem("dompass-lang", lang);
+      applyLanguage(lang);
     });
   </script>
 </body>

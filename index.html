@@ -33,10 +33,10 @@
   </section>
 
   <section id="signup">
-    <h2>Ready to simplify your building payments?</h2>
+    <h2 id="signup-title">Ready to simplify your building payments?</h2>
     <form>
-      <input type="email" placeholder="Enter your email" required />
-      <button type="submit">Sign Up Free</button>
+      <input type="email" id="signup-input" placeholder="Enter your email" required />
+      <button type="submit" id="signup-button">Sign Up Free</button>
     </form>
   </section>
 
@@ -50,7 +50,10 @@
         button: "Get Started",
         contactTitle: "Contact Us",
         contactEmail: "Email: upravitelblock225avhodb@gmail.com",
-        contactPhone: "Phone: +359 889 56 57 321"
+        contactPhone: "Phone: +359 889 56 57 321",
+        signupTitle: "Ready to simplify your building payments?",
+        signupPlaceholder: "Enter your email",
+        signupButton: "Sign Up Free"
       },
       bg: {
         navContact: "Контакт",
@@ -60,7 +63,10 @@
         button: "Започнете",
         contactTitle: "Свържете се с нас",
         contactEmail: "Имейл: upravitelblock225avhodb@gmail.com",
-        contactPhone: "Телефон: +359 889 56 57 321"
+        contactPhone: "Телефон: +359 889 56 57 321",
+        signupTitle: "Готови ли сте да улесните плащанията във вашата сграда?",
+        signupPlaceholder: "Въведете вашия имейл",
+        signupButton: "Регистрирай се"
       }
     };
 
@@ -75,9 +81,11 @@
       document.getElementById("contact-title").textContent = translations[lang].contactTitle;
       document.getElementById("contact-email").textContent = translations[lang].contactEmail;
       document.getElementById("contact-phone").textContent = translations[lang].contactPhone;
+      document.getElementById("signup-title").textContent = translations[lang].signupTitle;
+      document.getElementById("signup-input").placeholder = translations[lang].signupPlaceholder;
+      document.getElementById("signup-button").textContent = translations[lang].signupButton;
     }
 
-    // Load saved language or default to English
     const savedLang = localStorage.getItem("dompass-lang") || "en";
     switcher.value = savedLang;
     applyLanguage(savedLang);

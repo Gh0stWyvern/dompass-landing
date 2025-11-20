@@ -13,13 +13,17 @@
     <nav>
       <a href="#contact">Contact</a>
       <a href="#signup" class="cta">Sign Up</a>
+      <select id="language-switcher">
+        <option value="en">English</option>
+        <option value="bg">Български</option>
+      </select>
     </nav>
   </header>
 
   <section id="hero">
-    <h1>Welcome to DomPass</h1>
-    <p>Smart, secure apartment payment management for your building.</p>
-    <a href="#signup" class="cta-button">Get Started</a>
+    <h1 id="hero-title">Welcome to DomPass</h1>
+    <p id="hero-subtext">Smart, secure apartment payment management for your building.</p>
+    <a href="#signup" id="hero-button" class="cta-button">Get Started</a>
   </section>
 
   <section id="contact">
@@ -35,5 +39,28 @@
       <button type="submit">Sign Up Free</button>
     </form>
   </section>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Welcome to DomPass",
+        subtext: "Smart, secure apartment payment management for your building.",
+        button: "Get Started"
+      },
+      bg: {
+        title: "Добре дошли в DomPass",
+        subtext: "Умно и сигурно управление на плащанията за вашата сграда.",
+        button: "Започнете"
+      }
+    };
+
+    const switcher = document.getElementById("language-switcher");
+    switcher.addEventListener("change", () => {
+      const lang = switcher.value;
+      document.getElementById("hero-title").textContent = translations[lang].title;
+      document.getElementById("hero-subtext").textContent = translations[lang].subtext;
+      document.getElementById("hero-button").textContent = translations[lang].button;
+    });
+  </script>
 </body>
 </html>

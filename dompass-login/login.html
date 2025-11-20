@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DomPass Login</title>
+  <title>DomPass Sign Up</title>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
@@ -29,12 +29,11 @@
 <body>
   <div class="login-container">
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
-    <h2 id="login-title">Log In to DomPass</h2>
+    <h2 id="signup-title">Create Your DomPass Account</h2>
     <form>
       <input type="email" id="email" placeholder="Email" required />
       <input type="password" id="password" placeholder="Password" required />
-      <button type="submit" id="login-button">Log In</button>
-      <a href="#" id="forgot-link">Forgot your password?</a>
+      <button type="submit" id="signup-button">Sign Up</button>
     </form>
     <select id="language-switcher">
       <option value="en">English</option>
@@ -45,29 +44,26 @@
   <script>
     const translations = {
       en: {
-        title: "Log In to DomPass",
+        title: "Create Your DomPass Account",
         email: "Email",
         password: "Password",
-        button: "Log In",
-        forgot: "Forgot your password?"
+        button: "Sign Up"
       },
       bg: {
-        title: "Вход в DomPass",
+        title: "Създай акаунт в DomPass",
         email: "Имейл",
         password: "Парола",
-        button: "Вход",
-        forgot: "Забравена парола?"
+        button: "Регистрация"
       }
     };
 
     const switcher = document.getElementById("language-switcher");
 
     function applyLang(lang) {
-      document.getElementById("login-title").textContent = translations[lang].title;
+      document.getElementById("signup-title").textContent = translations[lang].title;
       document.getElementById("email").placeholder = translations[lang].email;
       document.getElementById("password").placeholder = translations[lang].password;
-      document.getElementById("login-button").textContent = translations[lang].button;
-      document.getElementById("forgot-link").textContent = translations[lang].forgot;
+      document.getElementById("signup-button").textContent = translations[lang].button;
     }
 
     const savedLang = localStorage.getItem("dompass-lang") || "en";
@@ -80,7 +76,7 @@
       applyLang(lang);
     });
 
-    // Firebase login
+    // Firebase signup
     const auth = firebase.auth();
 
     document.querySelector("form").addEventListener("submit", function(e) {
@@ -88,10 +84,10 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      auth.signInWithEmailAndPassword(email, password)
+      auth.createUserWithEmailAndPassword(email, password)
         .then(user => {
-          alert("Logged in successfully!");
-          // TODO: Redirect to dashboard
+          alert("Account created successfully!");
+          window.location.href = "login.html"; // Redirect to login
         })
         .catch(error => {
           alert("Error: " + error.message);

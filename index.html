@@ -13,7 +13,7 @@
     <nav>
       <a href="#contact" id="nav-contact">Contact</a>
       <a href="dompass-login/login.html" class="cta" id="nav-signin">Sign In</a>
-      <a href="#signup" class="cta" id="nav-signup">Sign Up</a>
+      <a href="#signup" id="nav-signup">Sign Up</a>
       <select id="language-switcher">
         <option value="en">English</option>
         <option value="bg">Български</option>
@@ -25,7 +25,6 @@
     <h1 id="hero-title">Welcome to DomPass</h1>
     <p id="hero-subtext">Smart, secure apartment payment management for your building.</p>
     <a href="#signup" id="hero-button" class="cta-button">Get Started</a>
-
   </section>
 
   <section id="contact">
@@ -38,7 +37,7 @@
     <h2>Ready to simplify your building payments?</h2>
     <form>
       <input type="email" placeholder="Enter your email" required />
-      <button type="submit">Sign Up Free</button>
+      <button type="submit">Sign Up</button>
     </form>
   </section>
 
@@ -47,6 +46,7 @@
       en: {
         navContact: "Contact",
         navSignup: "Sign Up",
+        navSignin: "Sign In",
         title: "Welcome to DomPass",
         subtext: "Smart, secure apartment payment management for your building.",
         button: "Get Started",
@@ -57,6 +57,7 @@
       bg: {
         navContact: "Контакт",
         navSignup: "Регистрация",
+        navSignin: "Вход",
         title: "Добре дошли в DomPass",
         subtext: "Умно и сигурно управление на плащанията за вашата сграда.",
         button: "Започнете",
@@ -71,6 +72,7 @@
     function applyLanguage(lang) {
       document.getElementById("nav-contact").textContent = translations[lang].navContact;
       document.getElementById("nav-signup").textContent = translations[lang].navSignup;
+      document.getElementById("nav-signin").textContent = translations[lang].navSignin;
       document.getElementById("hero-title").textContent = translations[lang].title;
       document.getElementById("hero-subtext").textContent = translations[lang].subtext;
       document.getElementById("hero-button").textContent = translations[lang].button;
@@ -79,7 +81,6 @@
       document.getElementById("contact-phone").textContent = translations[lang].contactPhone;
     }
 
-    // Load saved language or default to English
     const savedLang = localStorage.getItem("dompass-lang") || "en";
     switcher.value = savedLang;
     applyLanguage(savedLang);

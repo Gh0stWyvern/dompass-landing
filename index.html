@@ -11,26 +11,31 @@
       padding: 0;
       font-family: 'Montserrat', sans-serif;
       background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
-    header {
-      text-align: center;
+    .login-container {
+      background-color: #ffffff;
       padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
     }
 
     .logo {
-      width: 120px;
+      width: 100px;
       margin-bottom: 1em;
     }
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.5em;
-    }
-
-    p {
-      font-size: 1.2em;
-      margin-bottom: 2em;
+    h2 {
+      margin-bottom: 1.5em;
+      font-size: 1.5em;
+      color: #333;
     }
 
     .cta-buttons {
@@ -70,8 +75,7 @@
     }
 
     #language-switcher {
-      display: block;
-      margin: 0 auto 2em;
+      margin-top: 1em;
       padding: 0.5em;
       font-size: 1em;
       border-radius: 6px;
@@ -80,10 +84,9 @@
   </style>
 </head>
 <body>
-  <header>
+  <div class="login-container">
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
-    <h1 id="hero-title">Welcome to DomPass</h1>
-    <p id="hero-subtitle">Manage your apartment payments with ease</p>
+    <h2 id="hero-title">Welcome to DomPass</h2>
     <div class="cta-buttons">
       <a href="dompass-login/signup.html" id="signup-btn" class="cta primary">Sign Up Free</a>
       <a href="dompass-login/login.html" id="signin-btn" class="cta secondary">Sign In</a>
@@ -92,19 +95,17 @@
       <option value="en">English</option>
       <option value="bg">Български</option>
     </select>
-  </header>
+  </div>
 
   <script>
     const translations = {
       en: {
         title: "Welcome to DomPass",
-        subtitle: "Manage your apartment payments with ease",
         signup: "Sign Up Free",
         signin: "Sign In"
       },
       bg: {
         title: "Добре дошли в DomPass",
-        subtitle: "Управлявайте плащанията си лесно",
         signup: "Регистрация",
         signin: "Вход"
       }
@@ -114,7 +115,6 @@
 
     function applyLang(lang) {
       document.getElementById("hero-title").textContent = translations[lang].title;
-      document.getElementById("hero-subtitle").textContent = translations[lang].subtitle;
       document.getElementById("signup-btn").textContent = translations[lang].signup;
       document.getElementById("signin-btn").textContent = translations[lang].signin;
     }

@@ -52,9 +52,18 @@
     }
 
     h2 {
-      margin-bottom: 1.5em;
+      margin-bottom: 0.5em;
       font-size: 1.5em;
       color: #333;
+    }
+
+    .info-icon {
+      text-align: right;
+      font-size: 1.1em;
+      color: #555;
+      cursor: help;
+      margin-top: -0.5em;
+      margin-bottom: 1em;
     }
 
     form {
@@ -120,6 +129,7 @@
   <div class="login-container">
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
     <h2 id="signup-title">Create Your DomPass Account</h2>
+    <div class="info-icon" title="Password must be at least 8 characters and include uppercase, lowercase, number, and special character.">ℹ️</div>
     <form>
       <input type="email" id="email" placeholder="Email" required />
 
@@ -184,6 +194,11 @@
       input.type = input.type === "password" ? "text" : "password";
     }
 
+    function isStrongPassword(password) {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+      return regex.test(password);
+    }
+
     const auth = firebase.auth();
 
     document.querySelector("form").addEventListener("submit", function(e) {
@@ -194,6 +209,11 @@
 
       if (password !== confirmPassword) {
         alert("Passwords do not match.");
+        return;
+      }
+
+      if (!isStrongPassword(password)) {
+        alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
         return;
       }
 

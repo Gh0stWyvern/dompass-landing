@@ -3,97 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DomPass – Apartment Payment Management</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>DomPass</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 1em;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1em;
+      color: #333;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      margin-top: 2em;
+    }
+
+    .cta {
+      padding: 0.75em 1.5em;
+      font-size: 1em;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta.primary {
+      background-color: #0078d4;
+      color: white;
+      border: none;
+    }
+
+    .cta.primary:hover {
+      background-color: #005fa3;
+    }
+
+    .cta.secondary {
+      background-color: transparent;
+      color: #0078d4;
+      border: 2px solid #0078d4;
+    }
+
+    .cta.secondary:hover {
+      background-color: #0078d4;
+      color: white;
+    }
+
+    #language-switcher {
+      margin-top: 2em;
+      padding: 0.5em;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-  <header>
+  <div class="container">
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
-    <nav>
-      <a href="#contact" id="nav-contact">Contact</a>
-    <a href="dompass-login/signup.html" class="cta">Sign Up Free</a>
-      <select id="language-switcher">
-        <option value="en">English</option>
-        <option value="bg">Български</option>
-      </select>
-    </nav>
-  </header>
-
-  <section id="hero">
     <h1 id="hero-title">Welcome to DomPass</h1>
-    <p id="hero-subtext">Smart, secure apartment payment management for your building.</p>
-    <a href="#signup" id="hero-button" class="cta-button">Get Started</a>
-  </section>
-
-  <section id="contact">
-    <h2 id="contact-title">Contact Us</h2>
-    <p id="contact-email">Email: upravitelblock225avhodb@gmail.com</p>
-    <p id="contact-phone">Phone: +3598895657321</p>
-  </section>
-
-  <section id="signup">
-    <h2 id="signup-title">Ready to simplify your building payments?</h2>
-    <form>
-      <input type="email" id="signup-input" placeholder="Enter your email" required />
-      <button type="submit" id="signup-button">Sign Up Free</button>
-    </form>
-  </section>
+    <div class="cta-buttons">
+      <a href="dompass-login/signup.html" id="signup-btn" class="cta primary">Sign Up Free</a>
+      <a href="dompass-login/login.html" id="signin-btn" class="cta secondary">Sign In</a>
+    </div>
+    <select id="language-switcher">
+      <option value="en">English</option>
+      <option value="bg">Български</option>
+    </select>
+  </div>
 
   <script>
     const translations = {
       en: {
-        navContact: "Contact",
-        navSignup: "Sign Up",
         title: "Welcome to DomPass",
-        subtext: "Smart, secure apartment payment management for your building.",
-        button: "Get Started",
-        contactTitle: "Contact Us",
-        contactEmail: "Email: upravitelblock225avhodb@gmail.com",
-        contactPhone: "Phone: +359 889 56 57 321",
-        signupTitle: "Ready to simplify your building payments?",
-        signupPlaceholder: "Enter your email",
-        signupButton: "Sign Up Free"
+        signup: "Sign Up Free",
+        signin: "Sign In"
       },
       bg: {
-        navContact: "Контакт",
-        navSignup: "Регистрация",
         title: "Добре дошли в DomPass",
-        subtext: "Умно и сигурно управление на плащанията за вашата сграда.",
-        button: "Започнете",
-        contactTitle: "Свържете се с нас",
-        contactEmail: "Имейл: upravitelblock225avhodb@gmail.com",
-        contactPhone: "Телефон: +359 889 56 57 321",
-        signupTitle: "Готови ли сте да улесните плащанията във вашата сграда?",
-        signupPlaceholder: "Въведете вашия имейл",
-        signupButton: "Регистрирай се"
+        signup: "Регистрация",
+        signin: "Вход"
       }
     };
 
     const switcher = document.getElementById("language-switcher");
 
-    function applyLanguage(lang) {
-      document.getElementById("nav-contact").textContent = translations[lang].navContact;
-      document.getElementById("nav-signup").textContent = translations[lang].navSignup;
+    function applyLang(lang) {
       document.getElementById("hero-title").textContent = translations[lang].title;
-      document.getElementById("hero-subtext").textContent = translations[lang].subtext;
-      document.getElementById("hero-button").textContent = translations[lang].button;
-      document.getElementById("contact-title").textContent = translations[lang].contactTitle;
-      document.getElementById("contact-email").textContent = translations[lang].contactEmail;
-      document.getElementById("contact-phone").textContent = translations[lang].contactPhone;
-      document.getElementById("signup-title").textContent = translations[lang].signupTitle;
-      document.getElementById("signup-input").placeholder = translations[lang].signupPlaceholder;
-      document.getElementById("signup-button").textContent = translations[lang].signupButton;
+      document.getElementById("signup-btn").textContent = translations[lang].signup;
+      document.getElementById("signin-btn").textContent = translations[lang].signin;
     }
 
     const savedLang = localStorage.getItem("dompass-lang") || "en";
     switcher.value = savedLang;
-    applyLanguage(savedLang);
+    applyLang(savedLang);
 
     switcher.addEventListener("change", () => {
       const lang = switcher.value;
       localStorage.setItem("dompass-lang", lang);
-      applyLanguage(lang);
+      applyLang(lang);
     });
   </script>
 </body>

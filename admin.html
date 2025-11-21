@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DomPass Admin Panel</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+  <!-- Firebase Config -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abcdefg"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 2em;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1em;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.75em;
+      margin-top: 0.5em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 1.5em;
+      padding: 0.75em;
+      width: 100%;
+      background-color: #0078d4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <h2>DomPass Admin Panel</h2>
+  <div class="form-container">
+    <label for="apartment">Select Apartment</label>
+    <select id="apartment">
+      <option value="">Choose...</option>
+      <!-- Apartments 1–42 -->
+      <script>
+        for (let i = 1; i <= 42; i++) {
+          document.write(`<option value="${i}">Apartment ${i}</option>`);
+        }
+      </script>
+    </select>
+
+    <label for="overdue">Overdue Taxes</label>
+    <input type="text" id="overdue" placeholder="e.g. 200 BGN">
+
+    <label for="balance">Total Balance</label>
+    <input type="text" id="balance" placeholder="e.g. 1200 BGN">
+
+    <label for="nextPayment">Next Payment</label>
+    <input type="text" id="nextPayment" placeholder="e.g. Dec 15, 2025">
+
+    <button onclick="updateApartment()">Update Apartment Data</button>
+  </div>
+
+  <script>
+    // 🔒 Restrict access to admin email only
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        if (user.email === "upravitelblok225avhodb@gmail.com")
+          console.log("Admin logged in");
+        } else {
+          alert("Access denied. You are not an admin.");
+          window.location.href = "dashboard.html";
+        }
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+
+    function updateApartment() {
+      const apt = document.getElementById("apartment").value;
+      const overdue = document.getElementById("overdue").value;
+      const balance = document.getElementById("balance").value;
+      const nextPayment = document.getElementById("nextPayment").value;
+
+      if (!apt) {
+        alert("Please select an apartment.");
+        return;
+      }
+
+      db.collection("apartments").doc(apt).set({
+        overdue: overdue,
+        balance: balance,
+        nextPayment: nextPayment
+      }, { merge: true })
+      .then(() => {
+        alert("Apartment data updated successfully!");
+      })
+      .catch(error => {
+        alert("Error: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>

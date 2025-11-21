@@ -8,6 +8,7 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
   <!-- Firebase Config -->
   <script>
@@ -21,6 +22,8 @@
     };
 
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -57,33 +60,19 @@
       color: #333;
     }
 
-    .info-icon {
-      text-align: right;
-      font-size: 1.1em;
-      color: #555;
-      cursor: help;
-      margin-top: -0.5em;
-      margin-bottom: 1em;
-    }
-
     form {
       display: flex;
       flex-direction: column;
       gap: 1em;
     }
 
-    input[type="email"],
-    input[type="password"],
-    input[type="text"] {
-      padding: 0.75em 2.5em 0.75em 1em;
+    input, select {
+      padding: 0.75em;
       font-size: 1em;
-      font-family: inherit;
       border: 1px solid #ccc;
       border-radius: 6px;
       width: 100%;
       box-sizing: border-box;
-      appearance: none;
-      letter-spacing: 0.03em;
     }
 
     .password-wrapper {
@@ -129,7 +118,6 @@
   <div class="login-container">
     <img src="dompass-logo.png" alt="DomPass Logo" class="logo" />
     <h2 id="signup-title">Create Your DomPass Account</h2>
-    <div class="info-icon" title="Password must be at least 8 characters and include uppercase, lowercase, number, and special character.">ℹ️</div>
     <form>
       <input type="email" id="email" placeholder="Email" required />
 
@@ -142,6 +130,16 @@
         <input type="password" id="confirm-password" placeholder="Confirm Password" required />
         <span class="toggle" onclick="toggleVisibility('confirm-password')">👁️</span>
       </div>
+
+      <!-- Apartment Number Dropdown -->
+      <select id="apartment" required>
+        <option value="">Select Apartment</option>
+        <option value="1">Apartment 1</option>
+        <option value="2">Apartment 2</option>
+        <option value="3">Apartment 3</option>
+        <option value="4">Apartment 4</option>
+        <!-- Add more dynamically later -->
+      </select>
 
       <button type="submit" id="signup-button">Sign Up</button>
     </form>
@@ -158,6 +156,7 @@
         email: "Email",
         password: "Password",
         confirm: "Confirm Password",
+        apartment: "Select Apartment",
         button: "Sign Up"
       },
       bg: {
@@ -165,6 +164,7 @@
         email: "Имейл",
         password: "Парола",
         confirm: "Потвърди парола",
+        apartment: "Изберете апартамент",
         button: "Регистрация"
       }
     };
@@ -176,6 +176,7 @@
       document.getElementById("email").placeholder = translations[lang].email;
       document.getElementById("password").placeholder = translations[lang].password;
       document.getElementById("confirm-password").placeholder = translations[lang].confirm;
+      document.getElementById("apartment").options[0].textContent = translations[lang].apartment;
       document.getElementById("signup-button").textContent = translations[lang].button;
     }
 
@@ -199,13 +200,12 @@
       return regex.test(password);
     }
 
-    const auth = firebase.auth();
-
     document.querySelector("form").addEventListener("submit", function(e) {
       e.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
+      const apartment = document.getElementById("apartment").value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match.");
@@ -217,8 +217,20 @@
         return;
       }
 
+      if (!apartment) {
+        alert("Please select your apartment.");
+        return;
+      }
+
       auth.createUserWithEmailAndPassword(email, password)
         .then(user => {
+          // Save apartment info in Firestore
+          return db.collection("users").doc(user.user.uid).set({
+            email: email,
+            apartment: apartment
+          });
+        })
+        .then(() => {
           alert("Account created successfully!");
           window.location.href = "login.html";
         })
